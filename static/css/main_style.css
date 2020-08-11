@@ -202,14 +202,14 @@ ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, body, html, p, blockquote, fields
  .blog-button { height: auto; padding: 10px 20px; background-image: none; background-color: rgba(0,0,0,0.6); color: #ffffff; font-family: 'Montserrat', sans-serif; font-size: 12px; line-height: 1; text-transform: uppercase; -webkit-transition: all 300ms ease; -moz-transition: all 300ms ease; -ms-transition: all 300ms ease; transition: all 300ms ease; }
  .blog-button:hover { background-color: rgba(0,0,0,0.2); }
  .blog-button span { background: none; }
- @media screen and (max-width: 992px) {
+ @media screen and (max-width: 1160px) {
  font[size="1"] { font-size: 50% !important; }
  font[size="2"] { font-size: 75% !important; }
  font[size="3"] { font-size: 125% !important; }
  font[size="4"] { font-size: 150% !important; }
  font[size="5"] { font-size: 175% !important; }
  font[size="6"] { font-size: 200% !important; }
- font[size="7"] { font-size: 250% !important; }
+ font[size="7"] { font-size: 50% !important; }
  .container, .wsite-footer { overflow: hidden; }
  .birdseye-header { top: 0; left: 0; padding: 5px 20px !important; min-height: 50px; }
  .birdseye-header .birdseye-header, .birdseye-header .logo, .birdseye-header .logo img { max-height: 40px; }
