@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>EHT Interact Gallery Upload</title>
+   </head>
+   <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+   <body>
+      <div ng-app="app">
+         <div ng-controller="UploadController as vm">
+            <div class="container">
+               <div class="page-header">
+                  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                     <a class="navbar-brand" href="#">EHT Interact Gallery Upload Portal</a>
+                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                     </button>
+                     <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                           <li class="nav-item active">
+                              <a class="nav-link" href="/admin">Go Back <span class="sr-only">(current)</span></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </nav>
+                  <br>
+               </div>
+               {% with messages = get_flashed_messages(with_categories=true) %}
+               {% if messages %}
+               <ul class=flashes>
+                  {% for category, message in messages %}
+                  <li class="{{ category }}">{{ message }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+               {% endwith %}
+               <h6>Notice: Please only upload files with the following extentions: .jpg .png .jpeg</h6>
+               <form action = "/uploader" method = "POST" enctype = "multipart/form-data">
+                  <div class="form-group">
+                     <label for="fileName">Select a file</label>
+                     <div class="input-group">
+                        <input type="file" name = "file" class="form-control" readonly ng-model="fileName" ng-click="browse()">
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="browse()">Browse</button>
+                        </span>
+                     </div>
+                  </div>
+                  <div>
+                     <input class="btn btn-primary" type = "submit" value = "Upload"/>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </body>
+   <script>
+      var app = angular.module("app", ["myDirectives"]);
+      var myDirectives = angular.module("myDirectives", []);
+
+      app.controller("UploadController", function ($log) {
+        this.upload = function () {
+          $log.info("Uploading:", this.file || "no file selected!");
+        }
+      })
+
+      myDirectives.directive("myFileUpload", function ($compile) {
+        return {
+          restrict: "AE",
+          require: "ngModel",
+          scope: true,
+          link: link
+        };
+
+        function link (scope, element, attrs, ngModel) {
+          var input = angular.element("<input type=\"file\" style=\"display: none;\">");
+
+          input.bind("browse", function () {
+            this.click();
+          });
+
+          input.bind("change", function (changed) {
+            if (changed.target.files.length < 1) {
+              return;
+            }
+
+            var fileName = changed.target.files[0].name;
+            var reader = new FileReader();
+
+            reader.onload = function (loaded) {
+              scope.fileName = fileName;
+              ngModel.$setViewValue(loaded.target.result);
+            };
+
+            reader.readAsDataURL(changed.target.files[0]);
+          });
+
+          $compile(input)(scope);
+          element.append(input);
+
+          scope.browse = function () {
+            input.triggerHandler("browse");
+          };
+
+          scope.reset = function () {
+            scope.fileName = null;
+            ngModel.$setViewValue(null);
+          };
+        }
+      });
+   </script>
+</html>
