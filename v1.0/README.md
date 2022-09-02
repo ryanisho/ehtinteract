@@ -1,2 +1,4 @@
 # ehtinteract
-EHT Interact Website Server Files
+EHT Interact Website Development Static Files (Front-end only)
+
+2.19.20
